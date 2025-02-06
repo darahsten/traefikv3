@@ -1,0 +1,30 @@
+# Project URL: https://github.com/traefik/traefik
+# Docs URL: https://doc.traefik.io/traefik/
+services:
+  traefik:
+    image: traefik:v3.3
+    container_name: traefikv3
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - TZ=Africa/Nairobi # Change this to your timezone
+    networks:
+      - web
+    ports:
+      - 80:80 # HTTP entryPoints
+      - 443:443 # HTTPS entryPoints
+      - 8080:8080 # Dashbaord WebGui
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket to watch for Traefik
+      - ./traefik.yml:/traefik.yml:ro # Traefik config file
+      - traefik-certs:/certs # Docker volume to store the acme file for the Certifactes
+
+volumes:
+  traefik-certs:
+    name: traefik-certs
+
+networks:
+  web:
+    name: web
+    external: true
