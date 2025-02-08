@@ -4,15 +4,15 @@ api:
   debug: false # Optional can be Enabled if needed for troubleshooting
 
 entryPoints:
-  web:
+  insecure:
     address: ":80"
     # Optional if you want to redirect all HTTP to HTTPS
     http:
       redirections:
         entryPoint:
-          to: websecure
+          to: web
           scheme: https
-  websecure:
+  web:
     address: ":443"
 
 serversTransport:
