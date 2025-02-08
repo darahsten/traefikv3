@@ -18,6 +18,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket to watch for Traefik
       - ./traefik.yml:/traefik.yml:ro # Traefik config file
+      - ./dynamic.toml:/dynamic.toml:ro # the dynamic config file
       - traefik-certs:/certs # Docker volume to store the acme file for the Certifactes
 
 volumes:
