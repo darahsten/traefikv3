@@ -25,6 +25,9 @@ entryPoints:
           scheme: https
   web:
     address: ":443"
+    http:
+      middlewares:
+        - secure-headers@file
 
 providers:
   docker:
