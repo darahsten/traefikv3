@@ -2,12 +2,13 @@
 # Docs URL: https://doc.traefik.io/traefik/
 services:
   traefik:
-    image: traefik:v3.3
+    image: traefik:v3.7
     container_name: traefikv3
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - TZ=Africa/Nairobi # Change this to your timezone
     networks:
       - web
@@ -18,7 +19,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket to watch for Traefik
       - ./traefik.yml:/traefik.yml:ro # Traefik config file
-      - ./dynamic.toml:/dynamic.toml:ro # the dynamic config file
+      - ./dynamic:/etc/traefik/dynamic:ro
       - traefik-certs:/certs # Docker volume to store the acme file for the Certifactes
 
 volumes:

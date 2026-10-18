@@ -1,3 +1,14 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+log:
+  level: DEBUG
+
+accessLog:
+  filePath: /var/log/traefik/access.log
+  bufferingSize: 100
+
 api:
   dashboard: true # Optional can be disabled
   insecure: false # Optional can be disabled
@@ -15,22 +26,24 @@ entryPoints:
   web:
     address: ":443"
 
-serversTransport:
-  insecureSkipVerify: true
-
 providers:
   docker:
     watch: true
     network: web # Optional; Only use the "proxy" Docker network, even if containers are on multiple networks.
-
   file:
-    filename: "dynamic.toml"
+    directory: /etc/traefik/dynamic
+    watch=true
 
 certificatesResolvers:
   lets-encrypt:
     acme:
-      email: youremail@email.com
+      email: darahsten@email.com
       storage: /certs/acme.json
       # caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
-      tlsChallenge: true
+      # caServer: https://acme-v02.api.letsencrypt.org/directory # staging
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+        delayBeforeCheck: 5
