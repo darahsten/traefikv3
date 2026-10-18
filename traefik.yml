@@ -35,7 +35,7 @@ providers:
     network: web # Optional; Only use the "proxy" Docker network, even if containers are on multiple networks.
   file:
     directory: /etc/traefik/dynamic
-    watch=true
+    watch: true
 
 certificatesResolvers:
   lets-encrypt:
